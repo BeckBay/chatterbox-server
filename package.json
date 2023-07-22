@@ -9,22 +9,20 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
-    "chai": "^4.2.0",
-    "jquery": "^3.5.1",
-    "mocha": "^5.2.0",
+    "jquery": "^3.7.0",
     "sinon": "^6.3.5",
-    "underscore": "^1.11.0"
+    "underscore": "^1.13.6"
   },
   "scripts": {
-    "start:server": "node server/basic-server.js",
+    "start:server": "node server/basic-server.js -watch",
     "start:client": "npx live-server",
     "test": "mocha server/spec",
     "lint": "eslint ./"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "eslint-config-hackreactor": "https://github.com/reactorcore/eslint-config-hackreactor",
-    "mocha": "^8.2.1",
+    "chai": "^4.3.7",
+    "eslint-config-hackreactor": "github:reactorcore/eslint-config-hackreactor",
+    "mocha": "^10.2.0",
     "request": "^2.88.2"
   }
 }
