@@ -24,25 +24,14 @@ var requestHandler = function(request, response) {
   // Check the request method and URL
   if (request.method === 'GET' && request.url === '/classes/messages') {
     // Respond to GET requests for /classes/messages with a 200 status code and a sample message
-    /*
-    var sampleMessages = [{
-      username: 'john_doe',
-      text: 'Hello, World!',
-      roomname: 'lobby'
-    },
-    {
-      username: 'Heith',
-      text: 'Hello, World!',
-      roomname: 'lobby'
-    }];
-    */
+
     statusCode = 200;
 
     // Set the Content-Type header to application/json
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
     response.end(JSON.stringify(messageStorage));
-    console.log(messageStorage)
+    console.log(messageStorage);
 
   } else if (request.method === 'POST' && request.url === '/classes/messages') {
     statusCode = 201;
@@ -77,10 +66,8 @@ var requestHandler = function(request, response) {
     // For any other routes or request methods, respond with a 404 status code
     statusCode = 404;
     response.writeHead(statusCode, headers);
-    response.end();
+   response.end();
   }
 };
 
-
-
-module.exports = requestHandler;
+module.exports = {requestHandler};
