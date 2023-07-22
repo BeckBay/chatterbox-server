@@ -1,4 +1,5 @@
 /* This is the request handler function that will be called whenever a request is made to the server. It takes two arguments: request and response, which represent the incoming request and the outgoing response, respectively.*/
+var messageStorage = [];
 
 var requestHandler = function(request, response) {
 
@@ -10,7 +11,6 @@ var requestHandler = function(request, response) {
   //In this section, we log information about the incoming request, initialize some variables for status code and headers, and set CORS headers to allow all origins.
   // The outgoing status.
   var statusCode;
-  console.log('hi')
   // Set CORS headers to allow all origins.
   //These headers are used to control access to the server's resources from different origins (domains
   var headers = {
@@ -24,6 +24,7 @@ var requestHandler = function(request, response) {
   // Check the request method and URL
   if (request.method === 'GET' && request.url === '/classes/messages') {
     // Respond to GET requests for /classes/messages with a 200 status code and a sample message
+    /*
     var sampleMessages = [{
       username: 'john_doe',
       text: 'Hello, World!',
@@ -34,14 +35,44 @@ var requestHandler = function(request, response) {
       text: 'Hello, World!',
       roomname: 'lobby'
     }];
-
-//    var responseBody = {test: sampleMessages };
+    */
     statusCode = 200;
 
     // Set the Content-Type header to application/json
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
-    response.end(JSON.stringify(sampleMessages));
+    response.end(JSON.stringify(messageStorage));
+    console.log(messageStorage)
+
+  } else if (request.method === 'POST' && request.url === '/classes/messages') {
+    statusCode = 201;
+
+    var body = '';
+    request.on('data', function (data) {
+      body += data;
+    });
+
+    request.on('end', function () {
+
+      if (body) {
+        var message = JSON.parse(body);
+        messageStorage.push(message);
+       // console.log(messageStorage);
+
+        var responseText = [message];
+
+        headers['Content-Type'] = 'application/json';
+
+        response.writeHead(statusCode, headers);
+        response.end(JSON.stringify(responseText));
+        //console.log(body);
+      } else {
+        statusCode = 404;
+        response.writeHead(statusCode, headers);
+        response.end('wrong shit fix');
+      }
+
+    });
   } else {
     // For any other routes or request methods, respond with a 404 status code
     statusCode = 404;
@@ -49,5 +80,7 @@ var requestHandler = function(request, response) {
     response.end();
   }
 };
+
+
 
 module.exports = requestHandler;
